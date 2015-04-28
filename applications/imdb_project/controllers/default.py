@@ -8,6 +8,15 @@
 ## - download is for downloading files uploaded in the db (does streaming)
 #########################################################################
 
+def ajaxlivesearch():
+    partialstr = request.vars.values()[0]
+    query = db.actor.name.like('%'+partialstr+'%')
+    countries = db(query).select(db.actor.name)
+    items = []
+    for (i,actor) in enumerate(actors):
+        items.append(DIV(A(actor.name, _id="res%s"%i, _href="#", _onclick="copyToBox($('#res%s').html())"%i), _id="resultLiveSearch"))
+    return TAG[''](*items)
+
 def index():
     """
     example action using the internationalization operator T and flash

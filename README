@@ -1,0 +1,13 @@
+Web located at: http://127.0.0.1:8000/imdb_project/frontPage
+view: frontPage/index.html
+controller: frontPage.py
+
+TODO list:
+- Make page looks better (arrange the visualization to the right of Search, change fonts/colors etc)
+- Make Suggested Movie Searches working
+- Either create a "+" button to add more actors, or change the box to allow searching for multiple actors
+- Incorporate search engine autocomplete
+- Add range to the Budget field, make it shorter
+- Add a search button (require at least ? results of each field) and incorporate ML results
+- How to return visualization?
+- How/where to store ML classifier so that we don't have to train again whenever query

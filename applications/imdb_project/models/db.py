@@ -87,6 +87,12 @@ auth.settings.reset_password_requires_verification = True
 ## >>> rows=db(db.mytable.myfield=='value').select(db.mytable.ALL)
 ## >>> for row in rows: print row.id, row.myfield
 #########################################################################
+db = DAL('sqlite://storage.sqlite')
+
+## TEST:
+db.define_table('actor',
+                Field('name'))
+db.actor.insert(name = 'Blake LiveLy')
 
 ## after defining tables, uncomment below to enable auditing
 # auth.enable_record_versioning(db)
