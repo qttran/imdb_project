@@ -1,4 +1,6 @@
 {{extend 'layout.html'}}
+{{=response.toolbar()}}
+
 <!doctype html>
 
 <html lang="en">
@@ -43,7 +45,7 @@
     });
   
     function getData(field, value){
-        if(value != ""){
+        if(value != "" && value.length >= 3){
             if (field == "actors") {
                 $("#actorAutocomplete").show();
                 $.post("{{=URL(r=request,f='actorLiveSearch')}}",{partialstr:value},function(result){

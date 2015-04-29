@@ -8,6 +8,7 @@
 ## if SSL/HTTPS is properly configured and you want all HTTP requests to
 ## be redirected to HTTPS, uncomment the line below:
 # request.requires_https()
+import os
 
 ## app configuration made easy. Look inside private/appconfig.ini
 from gluon.contrib.appconfig import AppConfig
@@ -89,4 +90,4 @@ auth.settings.reset_password_requires_verification = True
 #########################################################################
 
 ## after defining tables, uncomment below to enable auditing
-# auth.enable_record_versioning(db)
+## auth.enable_record_versioning(db)
