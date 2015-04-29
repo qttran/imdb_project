@@ -7,6 +7,11 @@ def index():
 
 def actorLiveSearch():
     partialstr = request.vars.values()[0]
+    already_searched = ""
+    if ',' in partialstr:
+        list_of_actors = partialstr.rsplit(',',1)
+        already_searched = list_of_actors[0] + ", "
+        partialstr = list_of_actors[1].strip()
 
     query = db.top_actors.actor_name.like(partialstr+'%') # Query for first name
     results = db(query).select(db.top_actors.ALL, limitby = (0,MAX_RETURN_NUM))
@@ -15,7 +20,7 @@ def actorLiveSearch():
 
     first_name_suggestions_num = len(results) # If query for first name doesn't give enough results, query for last name
     if first_name_suggestions_num < MAX_RETURN_NUM:
-        query = db.top_actors.actor_name.like('% ' + partialstr+'%') 
+        query = db.top_actors.actor_name.like('% ' + partialstr+'%')
         results = db(query).select(db.top_actors.ALL, limitby = (0,MAX_RETURN_NUM - first_name_suggestions_num))
         for row in results:
             suggested_actors.append(row.actor_name)
@@ -24,7 +29,7 @@ def actorLiveSearch():
         if (suggested_actor not in items):
             items.append(suggested_actor)
     return DIV(*[DIV(k,
-                     _onclick="jQuery('#actors').val('%s'); hide()" % k,
+                     _onclick="jQuery('#actors').val('%s'); hide()" % (already_searched + k + ', ') ,
                      _onmouseover="this.style.backgroundColor='yellow'",
                      _onmouseout="this.style.backgroundColor='white'",
                      _id="resultLiveSearch"
@@ -34,6 +39,11 @@ def actorLiveSearch():
 def directorLiveSearch():
     #TODO search engine
     partialstr = request.vars.values()[0]
+    already_searched = ""
+    if ',' in partialstr:
+        list_of_directors = partialstr.rsplit(',',1)
+        already_searched = list_of_directors[0] + ", "
+        partialstr = list_of_directors[1].strip()
     query = db.directors.director_name.like(partialstr+'%') # Query for first name
     results = db(query).select(db.directors.ALL, limitby = (0,MAX_RETURN_NUM))
     suggested_directors = [row.director_name for row in results]
@@ -51,7 +61,7 @@ def directorLiveSearch():
             items.append(suggested_director)
 
     return DIV(*[DIV(k,
-                     _onclick="jQuery('#directors').val('%s'); hide()" % k,
+                     _onclick="jQuery('#directors').val('%s'); hide()" % (already_searched + k + ', '),
                      _onmouseover="this.style.backgroundColor='yellow'",
                      _onmouseout="this.style.backgroundColor='white'",
                      _id="resultLiveSearch"
