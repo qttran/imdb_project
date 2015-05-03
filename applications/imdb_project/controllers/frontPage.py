@@ -5,6 +5,34 @@ MAX_RETURN_NUM = 3
 def index():
     return dict()
 
+def movieLiveSearch():
+    partialstr = request.vars.values()[0]
+    
+    query = db.movies.title.like(partialstr+'%') # Query for first name
+    results = db(query).select(db.movies.ALL, limitby = (0,MAX_RETURN_NUM))
+    suggested_movies = [row for row in results]
+    
+    movie_infos = []
+    
+    titles = []
+    for i, suggested_movie in enumerate(suggested_movies): # Return
+        if (suggested_movie not in titles):
+            titles.append(suggested_movie)
+    return DIV(*[DIV(k.title,
+                     _onclick="""jQuery('#movies').val('%s'); 
+                                 jQuery('#actors').val('%s');
+                                 jQuery('#directors').val('%s');
+                                 jQuery('#writers').val('%s');
+                                 hide()"""
+                                 % (k.title,
+                                    k.cast_names.replace(";", ", "),
+                                    k.director_names.replace(";", ", "),
+                                    k.writer_names.replace(";", ", ")),
+                     _onmouseover="this.style.backgroundColor='yellow'",
+                     _onmouseout="this.style.backgroundColor='white'",
+                     _id="resultLiveSearch"
+                     ) for k in titles])
+
 def actorLiveSearch():
     partialstr = request.vars.values()[0]
     already_searched = ""

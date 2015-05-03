@@ -1,6 +1,4 @@
 {{extend 'layout.html'}}
-{{=response.toolbar()}}
-
 <!doctype html>
 
 <html lang="en">
@@ -10,6 +8,9 @@
   <meta name="description" content="IMDB Predictor">
   <meta name="author" content="IMDB Predictions">
   <style type="text/css">
+    .searchbox {
+    }
+
     .ajaxresults{
         background: #ffffff;
         padding: 5px 10px;
@@ -52,6 +53,12 @@
                     $("#actorAutocomplete").html(result);
                 });
             } 
+            else if (field == "movies") {
+                $("#movieAutocomplete").show();
+                $.post("{{=URL(r=request,f='movieLiveSearch')}}",{partialstr:value},function(result){
+                    $("#movieAutocomplete").html(result);
+                });
+            }
             else if (field == "directors") {
                 $("#directorAutocomplete").show();
                 $.post("{{=URL(r=request,f='directorLiveSearch')}}",{partialstr:value},function(result){
@@ -97,13 +104,20 @@
       <h2>
           Search:
       </h2>
+      <h4>
+          
+          Movies: <br />
+          <input type="text" id="movies" name="movies" class = "searchbox" autocomplete="off" onkeyup="getData(this.id, this.value);" /><br />
+          <div id="movieAutocomplete" class = "ajaxresults"></div>
+      </h4>
+      
       <p>
-          Please type your search terms into the boxes below, or choose one of the suggested searches.
+          Or please type your search terms into the boxes below, or choose one of the suggested searches.
       </p>
       <h4>
           
           Actors: <br />
-          <input type="text" id="actors" name="actors" autocomplete="off" onkeyup="getData(this.id, this.value);" /><br />
+          <input type="text" id="actors" name="actors" class = "searchbox" autocomplete="off" onkeyup="getData(this.id, this.value);" /><br />
           <div id="actorAutocomplete" class = "ajaxresults"></div>
       </h4>
       <h4>

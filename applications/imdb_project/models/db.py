@@ -91,9 +91,25 @@ auth.settings.reset_password_requires_verification = True
 #########################################################################
 db = DAL('sqlite://storage.sqlite')
 
-db.define_table('top_actors',Field('actor_name'))
-db.define_table('directors',Field('director_name'))
-
+db.define_table('top_actors',
+                Field('actor_name'))
+db.define_table('directors',
+                Field('director_name'))
+db.define_table('movies',
+                Field('title'),
+                Field('year'),
+                Field('director_ids'),
+                Field('director_names'),
+                Field('cast_ids'),
+                Field('cast_names'),
+                Field('writer_ids'),
+                Field('writer_names'),
+                Field('rating'),
+                Field('vote_count'),
+                Field('genre'),
+                Field('MPAA_rating'),
+                Field('revenue'),
+                Field('budget'))
 
 ## after defining tables, uncomment below to enable auditing
 ## auth.enable_record_versioning(db)
