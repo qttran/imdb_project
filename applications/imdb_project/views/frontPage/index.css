@@ -1,0 +1,166 @@
+*{
+margin: 0px;
+padding: 0px;
+}
+
+body {
+    background-color: #212121;
+    min-width:1040px;
+}
+
+.header {
+    position: absolute;
+    width: 1040px;
+    left: 50%;
+    margin-left: -520px;
+}
+#page-content {
+width: 1040px;
+margin-left: auto;
+margin-right: auto;
+}
+#fader{
+    -webkit-appearance: none;
+    background-color: #8B9DA6;
+}
+.rounded {
+    background: url("/imdb_project/static/images/SectionHeaderBackground.png");
+    background-repeat: repeat-x;
+    border-radius: 15px;
+}
+#submit {
+    font-size:30px;
+    border:none;
+    font-family: "Impact", Charcoal, sans-serif;
+    text-align:center;
+    background:rgba(255, 255, 255, 0);
+    height:75px;
+    width: 260px;
+}
+h2 {
+    text-align:center;
+    margin-top:0px;
+    margin-bottom:30px;
+    font-family: "Impact", Charcoal, sans-serif;
+}
+ul {
+    font-family: "Verdana", Geneva, sans-serif;
+    padding-left:40px;
+}
+p {
+    font-family: "Verdana", Geneva, sans-serif;
+}
+.choices {
+    background-color: #8B9DA6;
+    background-image: url("/imdb_project/static/images/SectionBodyBackground.png");
+    background-repeat: repeat-x;
+    position: absolute;
+    width: 300px;
+    height: 750px;
+    padding: 20px;
+    left: 50%;
+    margin-left: -520px;
+    margin-top: 542px;
+    }
+
+.visualizations {
+    background-color: #8B9DA6;
+    background-image: url("/imdb_project/static/images/SectionBodyBackground.png");
+    background-repeat: repeat-x;
+    position: absolute;
+    margin-top: 282px;
+    margin-left:-200px;
+    margin-bottom: 20px;
+    width: 720px;
+    height: 1010px;
+    padding: 20px;
+    left: 50%;
+}
+
+.suggested {
+    position: absolute;
+    background-color: #8B9DA6;
+    background-image: url("/imdb_project/static/images/SectionBodyBackground.png");
+    background-repeat: repeat-x;
+    width: 300px;
+    height: 240px;
+    left: 50%;
+    padding: 20px;
+    margin-top: 282px;
+    margin-left: -520px;
+}
+
+.searchbox {
+}
+
+.ajaxresults{
+    background: #ffffff;
+    padding: 5px 10px;
+    max-height: 400px;
+    overflow: auto;
+    position: absolute;
+    z-index: 99;
+    border: 1px solid #A9A9A9;
+    border-width: 0 1px 1px 1px;
+    -webkit-box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.3);
+    -moz-box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.3);
+    -box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.3);
+}
+.ajaxresults a{
+    color:#666666;
+}
+input[type=text]{
+    font-size:12px;
+    color:#666666;
+    background-color:#ffffff;
+    padding-top:5px;
+    width:200px;
+    height:20px;
+    border:1px solid #999999;
+}
+.dropdown-check-list {
+  background-color:#ffffff;
+  display: inline-block;
+}
+.dropdown-check-list .anchor {
+  position: relative;
+  cursor: pointer;
+  display: inline-block;
+  height: 25px;
+  padding: 5px 50px 5px 10px;
+  border:1px solid #999999;
+}
+.dropdown-check-list .anchor:after {
+  position: absolute;
+  content: "";
+  border-left: 2px solid black;
+  border-top: 2px solid black;
+  padding: 5px;
+  right: 10px;
+  top: 20%;
+  -moz-transform: rotate(-135deg);
+  -ms-transform: rotate(-135deg);
+  -o-transform: rotate(-135deg);
+  -webkit-transform: rotate(-135deg);
+  transform: rotate(-135deg);
+}
+.dropdown-check-list .anchor:active:after {
+  right: 8px;
+  top: 21%;
+}
+.dropdown-check-list ul.items {
+  padding: 2px;
+  display: none;
+  margin: 0;
+  border: 1px solid #ccc;
+  border-top: none;
+}
+.dropdown-check-list ul.items li {
+  list-style: none;
+}
+.dropdown-check-list.visible .anchor {
+  color: #0094ff;
+}
+.dropdown-check-list.visible .items {
+  display: block;
+}

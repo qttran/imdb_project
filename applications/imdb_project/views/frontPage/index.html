@@ -7,44 +7,12 @@
   <title>IMDB Predictor</title>
   <meta name="description" content="IMDB Predictor">
   <meta name="author" content="IMDB Predictions">
-  <style type="text/css">
-    .searchbox {
-    }
-
-    .ajaxresults{
-        background: #ffffff;
-        padding: 5px 10px;
-        max-height: 400px;
-        overflow: auto;
-        position: absolute;
-        z-index: 99;
-        border: 1px solid #A9A9A9;
-        border-width: 0 1px 1px 1px;
-        -webkit-box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.3);
-        -moz-box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.3);
-        -box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.3);
-    }
-    .ajaxresults a{
-        color:#666666;
-        
-    }
-    input[type=text]{
-        font-size:12px;
-        color:#666666;
-        background-color:#ffffff;
-        padding-top:5px;
-        width:200px;
-        height:20px;
-        border:1px solid #999999;
-    }
-    </style>
-    
+  <link rel="stylesheet" type="text/css" href="index.css">
     <script type="text/javascript" src="{{=URL(r=request,c='static',f='jquery.js')}}"></script>
     <script type="text/javascript">
     jQuery(document).ready(function(){
         hide();
     });
-  
     function getData(field, value){
         if(value != "" && value.length >= 3){
             if (field == "actors") {
@@ -81,125 +49,152 @@
             hide();
         }
     }
-  
+
     function hide(){
         $(".ajaxresults").hide();
     }
-  
+
     function copyToBox(value){
         $("#actors").val(value);
         hide();
-    }   
-    </script> 
+    }
+    </script>
 </head>
 
 <body>
   <script src="js/scripts.js"></script>
-  <div>
-      <h1>
-          IMDB Predictor
-      </h1>
+  <script src="/imdb_project/static/dropdown.js"></script>
+  <div class="header">
+      <a href="/imdb_project/views/frontPage/index">
+          <img src="/imdb_project/static/images/IMDBPredictorLogoCropped.png" style="width:1040px;height:262px" />
+      </a>
   </div>
-  <div class="choices">
-      <h2>
-          Search:
-      </h2>
-      <h4>
-          
-          Movies: <br />
-          <input type="text" id="movies" name="movies" class = "searchbox" autocomplete="off" onkeyup="getData(this.id, this.value);" /><br />
-          <div id="movieAutocomplete" class = "ajaxresults"></div>
-      </h4>
-      
-      <p>
-          Or please type your search terms into the boxes below, or choose one of the suggested searches.
-      </p>
-      <h4>
-          
-          Actors: <br />
-          <input type="text" id="actors" name="actors" class = "searchbox" autocomplete="off" onkeyup="getData(this.id, this.value);" /><br />
-          <div id="actorAutocomplete" class = "ajaxresults"></div>
-      </h4>
-      <h4>
-          Directors:  <br />
-          <input type="text" id="directors" name="directors" autocomplete="off" onkeyup="getData(this.id, this.value);" /><br />
-          <div id="directorAutocomplete" class = "ajaxresults"></div>
-      </h4>
-      <h4>
-          Writer:  <br />
-          <input type="text" id="writers" name="writers" autocomplete="off" onkeyup="getData(this.id, this.value);" /><br />
-          <div id="writerAutocomplete" class = "ajaxresults"></div>
-      </h4>
-      <h4>
-          Producers:       <br />
-          <input type="text" id="producers" name="producers" autocomplete="off" onkeyup="getData(this.id, this.value);" /><br />
-          <div id="producerAutocomplete" class = "ajaxresults"></div>
-      </h4>
-      <h4>
-          Genres: <select>
-          <option value="Crime">Crime</option>
-          <option value="Drama">Drama</option>
-          <option value="Action">Action</option>
-          <option value="Adventure">Adventure</option>
-          <option value="Fantasy">Fantasy</option>
-          <option value="Sci-Fi">Sci-Fi</option>
-          <option value="Comedy">Comedy</option>
-          <option value="Family">Family</option>
-          <option value="Thriller">Thriller</option>
-          <option value="Animation">Animation</option>
-          <option value="Musical">Musical</option>
-          <option value="Mystery">Mystery</option>
-          <option value="War">War</option>
-          <option value="Horror">Horror</option>
-          <option value="Western">Western</option>
-          <option value="Sport">Sport</option>
-          <option value="Romance">Romance</option>
-          <option value="Music">Music</option>
-          <option value="Biography">Biography</option>
-          <option value="History">History</option>
-          <option value="Documentary">Documentary</option>
-          <option value="Short">Short</option>
-          <option value="News">News</option>
-          <option value="Reality-TV">Reality-TV</option>
-          </select>
-      </h4>
-      <h4>
-          MPAA Rating: <select>
-          <option value="G">G</option>
-          <option value="PG">PG</option>
-          <option value="PG13">PG-13</option>
-          <option value="R">R</option>
-          <option value="NC17">NC-17</option>
-          <option value="NR">Not Rated</option>
-          <option value="UR">Unrated</option>
-          </select>
-      </h4>
-      <h4>
-          Budget: <input type="range"  min="0" max="1000000" />
-      </h4>
+  <div id="page-content">
+      <div class="choices">
+          <h2>
+              Search Terms:
+          </h2>
+          <p>
+              To automatically fill the boxes, select a movie from the list above or type a movie title into the box below.
+          </p>
+          <h4>
+
+              <label>Movies:</label> <br />
+              <input type="text" id="movies" name="movies" class = "searchbox" autocomplete="off" onkeyup="getData(this.id, this.value);" /><br />
+              <div id="movieAutocomplete" class = "ajaxresults"></div>
+          </h4>
+          <p>
+              Please type your search terms into the boxes below, or choose one of the suggested searches.
+          </p>
+          <h4>
+
+              <label>Actors:</label> <br />
+              <input type="text" id="actors" name="actors" class = "searchbox" autocomplete="off" onkeyup="getData(this.id, this.value);" /><br />
+              <div id="actorAutocomplete" class = "ajaxresults"></div>
+          </h4>
+          <h4>
+              <label>Directors:</label>  <br />
+              <input type="text" id="directors" name="directors" autocomplete="off" onkeyup="getData(this.id, this.value);" /><br />
+              <div id="directorAutocomplete" class = "ajaxresults"></div>
+          </h4>
+          <h4>
+              <label>Writers:</label>  <br />
+              <input type="text" id="writers" name="writers" autocomplete="off" onkeyup="getData(this.id, this.value);" /><br />
+              <div id="writerAutocomplete" class = "ajaxresults"></div>
+          </h4>
+          <h4>
+              <label>Producers:</label>       <br />
+              <input type="text" id="producers" name="producers" autocomplete="off" onkeyup="getData(this.id, this.value);" /><br />
+              <div id="producerAutocomplete" class = "ajaxresults"></div>
+          </h4>
+          <h4>
+              <label>Genres:</label>
+              <div id="list1" class="dropdown-check-list" tabindex="100">
+                  <span class="anchor">Select Genres:</span>
+                  <ul class="items">
+                      <li><input type="checkbox" value="Crime" />Crime</li>
+                      <li><input type="checkbox" value="Drama" />Drama</li>
+                      <li><input type="checkbox" value="Action" />Action</li>
+                      <li><input type="checkbox" value="Adventure" />Adventure</li>
+                      <li><input type="checkbox" value="Fantasy" />Fantasy</li>
+                      <li><input type="checkbox" value="Sci-Fi" />Sci-Fi</li>
+                      <li><input type="checkbox" value="Comedy" />Comedy</li>
+                      <li><input type="checkbox" value="Family" />Family</li>
+                      <li><input type="checkbox" value="Thriller" />Thriller</li>
+                      <li><input type="checkbox" value="Animation" />Animation</li>
+                      <li><input type="checkbox" value="Musical" />Musical</li>
+                      <li><input type="checkbox" value="Mystery" />Mystery</li>
+                      <li><input type="checkbox" value="War" />War</li>
+                      <li><input type="checkbox" value="Horror" />Horror</li>
+                      <li><input type="checkbox" value="Western" />Western</li>
+                      <li><input type="checkbox" value="Sport" />Sport</li>
+                      <li><input type="checkbox" value="Romance" />Romance</li>
+                      <li><input type="checkbox" value="Music" />Music</li>
+                      <li><input type="checkbox" value="Biography" />Biography</li>
+                      <li><input type="checkbox" value="History" />History</li>
+                      <li><input type="checkbox" value="Documentary" />Documentary</li>
+                      <li><input type="checkbox" value="Short" />Short</li>
+                      <li><input type="checkbox" value="News" />News</li>
+                      <li><input type="checkbox" value="Reality-TV" />Reality-TV</li>
+                  </ul>
+              </div>
+              <script type="text/javascript">
+                  var checkList = document.getElementById('list1');
+                  checkList.getElementsByClassName('anchor')[0].onclick = function (evt) {
+                      if (checkList.classList.contains('visible'))
+                          checkList.classList.remove('visible');
+                      else
+                          checkList.classList.add('visible');
+                  }
+
+                  checkList.onblur = function(evt) {
+                      checkList.classList.remove('visible');
+                  }
+              </script>
+          </h4>
+          <h4>
+              <label for=MPAA>MPAA Rating:</label>
+              <select id=MPAA>
+              <option value="G">G</option>
+              <option value="PG">PG</option>
+              <option value="PG13">PG-13</option>
+              <option value="R">R</option>
+              <option value="NC17">NC-17</option>
+              <option value="NR">Not Rated</option>
+              <option value="UR">Unrated</option>
+              </select>
+          </h4>
+          <h4>
+              <label for=fader>Budget: <output for=fader id=budget>$500000</output></label>
+              <input type=range min=0 max=3000000 value=500000 id=fader step=10000 oninput="outputUpdate(value)">
+              <script>
+                function outputUpdate(budget) {
+                    document.querySelector('#budget').value = "$"+budget;
+                }
+              </script>
+          </h4>
+          <div class="rounded">
+              <input id="submit" type="button" value="Search">
+          </div>
+      </div>
+      <div class="visualizations">
+          <h2>
+              Visualizations:
+          </h2>
+      </div>
+      <div class="suggested">
+          <h2>
+              Upcoming Movies:
+          </h2>
+          <ul>
+              <li><a href="url">Mad Max: Fury Road</a></li>
+              <li><a href="url">Pitch Perfect 2</a></li>
+              <li><a href="url">I'll See You in My Dreams</a></li>
+              <li><a href="url">Good Kill</a></li>
+              <li><a href="url">The Connection</a></li>
+              <li><a href="url">Set Fire to the Stars</a></li>
+          </ul>
+      </div>
   </div>
-  <div class="visualizations">
-      <h1>
-          Visualizations:
-      </h1>
-  </div>
-  <div class="suggested">
-      <h1>
-          Suggested Movie Searches:
-      </h1>
-      <ul>
-          <li><a href="url">Search 1</a></li>
-          <li><a href="url">Search 2</a></li>
-          <li><a href="url">Search 3</a></li>
-          <li><a href="url">Search 4</a></li>
-          <li><a href="url">Search 5</a></li>
-          <li><a href="url">Search 6</a></li>
-      </ul>
-  </div>
-  <div>
-      <h1>
-          Footer
-      </h1>
-    </div>
 </body>
 </html>
