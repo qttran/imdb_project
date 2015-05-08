@@ -1,6 +1,7 @@
 import sys
 import csv
 import numpy as np
+import pickle
 from sklearn import linear_model
 from sklearn import tree
 from sklearn import ensemble
@@ -211,13 +212,13 @@ def Regression_Models(inputs, outputs_rating, outputs_revenue, preprocessed_feat
 	#print 'The R-square of prediction is', clf_rating.score(inputs, outputs_rating)
 	#print clf_rating.alpha_, clf_rating.coef_ 
 
-	#clf_revenue = linear_model.LassoCV(alphas = [1e+03, 1e+04, 1e+05, 1e+06, 1e+07])
-	#clf_revenue.fit(inputs, outputs_revenue)
+	clf_revenue = linear_model.LassoCV(alphas = [1e+03, 1e+04, 1e+05, 1e+06, 1e+07])
+	clf_revenue.fit(inputs, outputs_revenue)
 	#print 'The R-square of prediction is', clf_revenue.score(inputs, outputs_revenue)
-	#print clf_revenue.alpha_, clf_revenue.coef_ 
-
-	#clf_rating = linear_model.LinearRegression(normalize = True)
-	#clf_rating.fit(inputs, outputs_rating)
+    #print clf_revenue.alpha_, clf_revenue.coef_
+    pickle.dump(clf_revenue, open('clf_revenue.p', 'wb'))
+    clf_rating = linear_model.LinearRegression(normalize = True)
+	clf_rating.fit(inputs, outputs_rating)
 	#print 'The R-square of predition is', clf_rating.score(inputs, outputs_rating)
 	#print clf_rating.coef_
 
@@ -293,5 +294,3 @@ if __name__ == '__main__':
 
 	Regression_Models(inputs, outputs_rating, outputs_revenue, preprocessed_features,\
 	 last_feature_id, preprocessed_movies_top_actors)
-
-	
