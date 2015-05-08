@@ -1,9 +1,75 @@
 # -*- coding: utf-8 -*-
 # try something like
+import sys
+import csv
+import string
+import operator
+import cPickle as pickle
+import os
+
 MAX_RETURN_NUM = 3
 
 def index():
     return dict()
+
+def movieSuggestions():
+    actors= request.vars.values()[3].split(", ")
+    directors= request.vars.values()[1].split(", ")
+    writers = request.vars.values()[2].split(", ")
+    genres= request.vars.values()[4].split(", ")
+    mpaa= request.vars.values()[0]
+    
+    binary_file_folder = os.getcwd() + "/applications/imdb_project/binary_files/"
+    directors_file = binary_file_folder + "directors_invIndex.p"
+    actors_file = binary_file_folder + "actors_invIndex.p"
+    genres_file = binary_file_folder + "genres_invIndex.p"
+    mpaa_file = binary_file_folder + "mpaa_invIndex.p"
+    d_index = pickle.load(open(directors_file, "rb"))
+    a_index = pickle.load(open(actors_file, "rb"))
+    g_index = pickle.load(open(genres_file, "rb"))
+    m_index = pickle.load(open(mpaa_file, "rb"))
+    similar_movies = {}
+    # for each queried director, add 1 to the similarity score of any movie with that director
+    for d in directors:
+		for movie in d_index[d]:
+			if movie in similar_movies:
+				similar_movies[movie] += 1
+			else:
+				similar_movies[movie] = 1
+
+	# for each queried actor, add 1 to the similarity score of any movie with that actor
+    for a in actors:
+        for movie in a_index[a]:
+            if movie in similar_movies:
+                similar_movies[movie] += 1
+            else:
+                similar_movies[movie] = 1
+
+    # add 1 to the similarity score of any movie with the queried genre
+    for g in genres:
+        for movie in g_index[g]:
+            if movie in similar_movies:
+                similar_movies[movie] += 1
+            else:
+                similar_movies[movie] = 1
+    # add 1 to the similarity score of any movie with the queried MPAA rating
+    if mpaa != "":
+        for movie in m_index[mpaa]:
+            if movie in similar_movies:
+                similar_movies[movie] += 1
+            else:
+                similar_movies[movie] = 1
+
+    most_similars = []
+    for i in range(0,5):
+        if similar_movies != {}:
+            most_similar = max(similar_movies.iteritems(), key=operator.itemgetter(1))
+        most_similars.append(most_similar)
+        del similar_movies[most_similar[0]]
+        
+    return DIV(*[DIV(most_similars[0])])
+
+    
 
 def movieLiveSearch():
     partialstr = request.vars.values()[0]

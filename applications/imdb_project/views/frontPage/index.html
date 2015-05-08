@@ -13,6 +13,19 @@
     jQuery(document).ready(function(){
         hide();
     });
+    function search(){
+        getMovieRecommendations();
+    }
+    function getMovieRecommendations() {
+        actors = document.forms["searchForm"]["actors"].value;
+        directors = document.forms["searchForm"]["directors"].value;
+        writers = document.forms["searchForm"]["writers"].value;
+        genres = "Action, Comedy";
+        mpaa = document.forms["searchForm"][28].value; //TODO: change if we change genres
+        $.post("{{=URL(r=request,f='movieSuggestions')}}",{actors:actors, directors:directors, writers:writers, genres:genres,mpaa:mpaa},function(result){
+                    $("#movie-recommendations").html(result);
+                });
+    }
     function getData(field, value){
         if(value != "" && value.length >= 3){
             if (field == "actors") {
@@ -20,7 +33,7 @@
                 $.post("{{=URL(r=request,f='actorLiveSearch')}}",{partialstr:value},function(result){
                     $("#actorAutocomplete").html(result);
                 });
-            } 
+            }
             else if (field == "movies") {
                 $("#movieAutocomplete").show();
                 $.post("{{=URL(r=request,f='movieLiveSearch')}}",{partialstr:value},function(result){
@@ -78,7 +91,6 @@
               To automatically fill the boxes, select a movie from the list above or type a movie title into the box below.
           </p>
           <h4>
-
               <label>Movies:</label> <br />
               <input type="text" id="movies" name="movies" class = "searchbox" autocomplete="off" onkeyup="getData(this.id, this.value);" /><br />
               <div id="movieAutocomplete" class = "ajaxresults"></div>
@@ -86,6 +98,8 @@
           <p>
               Please type your search terms into the boxes below, or choose one of the suggested searches.
           </p>
+          
+          <form id="searchForm">
           <h4>
 
               <label>Actors:</label> <br />
@@ -174,13 +188,16 @@
               </script>
           </h4>
           <div class="rounded">
-              <input id="submit" type="button" value="Search">
+              <input id="submit" type="button" value="Search" onclick="search()">
           </div>
+          </form>
       </div>
       <div class="visualizations">
           <h2>
               Visualizations:
+              
           </h2>
+          <p id="movie-recommendations" name="movie-recommendations" />
       </div>
       <div class="suggested">
           <h2>
