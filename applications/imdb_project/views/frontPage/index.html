@@ -20,10 +20,16 @@
         actors = document.forms["searchForm"]["actors"].value;
         directors = document.forms["searchForm"]["directors"].value;
         writers = document.forms["searchForm"]["writers"].value;
-        genres = "Action, Comedy";
-        mpaa = document.forms["searchForm"][28].value; //TODO: change if we change genres
+        genres = document.forms["searchForm"]["genre"].value;
+        mpaa = document.forms["searchForm"]["MPAA"].value; //TODO: change if we change genres
         $.post("{{=URL(r=request,f='movieSuggestions')}}",{actors:actors, directors:directors, writers:writers, genres:genres,mpaa:mpaa},function(result){
-                    $("#movie-recommendations").html(result);
+                    movies = result.split(",");
+                    for (i = 0; i < 6; i+= 1) {
+                        if (movies.length >= i*2 + 1 && result != "") {
+                            document.getElementById('movie' + (i+1)).innerHTML= movies[i*2+1];
+                            document.getElementById('movie' + (i+1)).href= "http://www.imdb.com/title/" + movies[i*2];
+                        }
+                    }
                 });
     }
     function getData(field, value){
@@ -50,12 +56,6 @@
                 $("#writerAutocomplete").show();
                 $.post("{{=URL(r=request,f='writerLiveSearch')}}",{partialstr:value},function(result){
                     $("writerAutocomplete").html(result);
-                });
-            }
-            else if (field == "producers") {
-                $("#producerAutocomplete").show();
-                $.post("{{=URL(r=request,f='producerLiveSearch')}}",{partialstr:value},function(result){
-                    $("#producerAutocomplete").html(result);
                 });
             }
         }else{
@@ -114,11 +114,6 @@
               <label>Writers:</label>  <br />
               <input type="text" id="writers" name="writers" autocomplete="off" onkeyup="getData(this.id, this.value);" /><br />
               <div id="writerAutocomplete" class = "ajaxresults"></div>
-          </h4>
-          <h4>
-              <label>Producers:</label>       <br />
-              <input type="text" id="producers" name="producers" autocomplete="off" onkeyup="getData(this.id, this.value);" /><br />
-              <div id="producerAutocomplete" class = "ajaxresults"></div>
           </h4>
           <h4>
               <label>Genres:</label>
@@ -198,12 +193,12 @@
               Recommended Movies:
           </h2>
           <ul id=similarList>
-              <li><label><a href="http://www.imdb.com/title/tt1392190/">Mad Max: Fury Road</a></lable></li>
-              <li><label><a href="http://www.imdb.com/title/tt2848292/">Pitch Perfect 2</a></lable></li>
-              <li><label><a href="http://www.imdb.com/title/tt3236120/">I'll See You in My Dreams</a></lable></li>
-              <li><label><a href="http://www.imdb.com/title/tt3297330/">Good Kill</a></lable></li>
-              <li><label><a href="http://www.imdb.com/title/tt2935564/">The Connection</a></lable></li>
-              <li><label><a href="http://www.imdb.com/title/tt3455740/">Set Fire to the Stars</a></lable></li>
+              <li><label><a id = "movie1" href="http://www.imdb.com/title/tt1392190/">Mad Max: Fury Road</a></label></li>
+              <li><label><a id = "movie2" href="http://www.imdb.com/title/tt2848292/">Pitch Perfect 2</a></label></li>
+              <li><label><a id = "movie3" href="http://www.imdb.com/title/tt3236120/">I'll See You in My Dreams</a></label></li>
+              <li><label><a id = "movie4" href="http://www.imdb.com/title/tt3297330/">Good Kill</a></label></li>
+              <li><label><a id = "movie5" href="http://www.imdb.com/title/tt2935564/">The Connection</a></label></li>
+              <li><label><a id = "movie6" href="http://www.imdb.com/title/tt3455740/">Set Fire to the Stars</a></label></li>
           </ul>
       </div>
   </div>
