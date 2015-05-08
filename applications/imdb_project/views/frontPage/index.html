@@ -14,14 +14,16 @@
         hide();
     });
     function search(){
-        getMovieRecommendations();
-    }
-    function getMovieRecommendations() {
         actors = document.forms["searchForm"]["actors"].value;
         directors = document.forms["searchForm"]["directors"].value;
         writers = document.forms["searchForm"]["writers"].value;
         genres = document.forms["searchForm"]["genre"].value;
         mpaa = document.forms["searchForm"]["MPAA"].value; //TODO: change if we change genres
+        budget = document.forms["searchForm"]["fader"].value;
+        getMovieRecommendations(actors, directors, writers, genres, mpaa);
+        fillVisInteractionField(actors, directors, writers, genres, mpaa, budget);
+    }
+    function getMovieRecommendations(actors, directors, writers, genres, mpaa) {
         $.post("{{=URL(r=request,f='movieSuggestions')}}",{actors:actors, directors:directors, writers:writers, genres:genres,mpaa:mpaa},function(result){
                     movies = result.split(",");
                     for (i = 0; i < 6; i+= 1) {
@@ -31,6 +33,30 @@
                         }
                     }
                 });
+    }
+    function fillVisInteractionField(actors, directors, writers, genres, mpaa, budget) {
+        var div = document.getElementById("visInteractions");
+        var actorSplit = actors.split(", ");
+        var directorSplit = directors.split(", ");
+        var writerSplit = writers.split(", ");
+        var genreSplit = genres.split(", ");
+        var innerHtml = "";
+        for (i = 0; i < actorSplit.length; i+= 1) {
+            innerHtml += "<li><input type='checkbox' id='actor"+i+"'value="+actorSplit[i]+" checked/>"+actorSplit[i]+"</li>";
+        }
+        for (i = 0; i < directorSplit.length; i+= 1) {
+            innerHtml += "<li><input type='checkbox' id='director"+i+"'value="+directorSplit[i]+" checked/>"+directorSplit[i]+"</li>";
+        }
+        for (i = 0; i < writerSplit.length; i+= 1) {
+            innerHtml += "<li><input type='checkbox' id='writer"+i+"'value="+writerSplit[i]+" checked/>"+writerSplit[i]+"</li>";
+        }
+        for (i = 0; i < genreSplit.length; i+= 1) {
+            innerHtml += "<li><input type='checkbox' id='genre"+i+"'value="+genreSplit[i]+" checked/>"+genreSplit[i]+"</li>";
+        }
+        innerHtml += "<li><input type='checkbox' id='mpaa'value="+mpaa+" checked/>"+mpaa+"</li>";
+        var list = document.getElementById("visualizationList");
+        list.innerHTML=innerHtml;
+        div.style.visibility='visible';
     }
     function getData(field, value){
         if(value != "" && value.length >= 3){
@@ -98,7 +124,6 @@
           <p>
               Type your search terms into the boxes below or edit the search terms from a pre-existing movie.
           </p>
-          
           <form id="searchForm">
           <h4>
               <label>Actors:</label> <br />
@@ -118,7 +143,7 @@
           <h4>
               <label>Genres:</label>
               <select multiple id=genre>
-                  <option value="Crime" />Crime</option>
+                  <option selected="selected" value="Crime" />Crime</option>
                   <option value="Drama" />Drama</option>
                   <option value="Action" />Action</option>
                   <option value="Adventure" />Adventure</option>
