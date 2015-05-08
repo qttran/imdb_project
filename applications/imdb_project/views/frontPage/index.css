@@ -26,22 +26,26 @@ margin-right: auto;
 .rounded {
     background: url("/imdb_project/static/images/SectionHeaderBackground.png");
     background-repeat: repeat-x;
-    border-radius: 15px;
+    border-radius: 7px;
+    height:75px;
 }
 #submit {
     font-size:30px;
-    border:none;
+    border:1px;
     font-family: "Impact", Charcoal, sans-serif;
+    color: black;
     text-align:center;
     background:rgba(255, 255, 255, 0);
     height:75px;
     width: 260px;
 }
 h2 {
+    font-size:35px;
     text-align:center;
     margin-top:0px;
     margin-bottom:30px;
     font-family: "Impact", Charcoal, sans-serif;
+    color: black;
 }
 ul {
     font-family: "Verdana", Geneva, sans-serif;
@@ -56,13 +60,16 @@ p {
     background-repeat: repeat-x;
     position: absolute;
     width: 300px;
-    height: 750px;
+    height: 850px;
     padding: 20px;
     left: 50%;
     margin-left: -520px;
-    margin-top: 542px;
+    margin-top: 282px;
+    margin-bottom: 20px;
     }
-
+.choices label{
+    padding-top: 7px;
+}
 .visualizations {
     background-color: #8B9DA6;
     background-image: url("/imdb_project/static/images/SectionBodyBackground.png");
@@ -70,9 +77,8 @@ p {
     position: absolute;
     margin-top: 282px;
     margin-left:-200px;
-    margin-bottom: 20px;
     width: 720px;
-    height: 1010px;
+    height: 650px;
     padding: 20px;
     left: 50%;
 }
@@ -82,17 +88,34 @@ p {
     background-color: #8B9DA6;
     background-image: url("/imdb_project/static/images/SectionBodyBackground.png");
     background-repeat: repeat-x;
-    width: 300px;
-    height: 240px;
+    width: 720px;
+    height: 180px;
     left: 50%;
     padding: 20px;
-    margin-top: 282px;
-    margin-left: -520px;
+    margin-top: 952px;
+    margin-left: -200px;
+    margin-bottom: 20px;
+}
+#similarList{
+    padding-top:20px;
+    text-align:center;
+}
+#similarList li{
+    display:inline;
+    list-style-type:none;
+    padding-right: 30px;
 }
 
-.searchbox {
+#visualizationList li{
+    display:inline;
+    list-style-type:none;
+    padding-right: 20px;
 }
-
+#visInteractions {
+    position:absolute;
+    padding:10px;
+    bottom:0;
+}
 .ajaxresults{
     background: #ffffff;
     padding: 5px 10px;
@@ -114,53 +137,7 @@ input[type=text]{
     color:#666666;
     background-color:#ffffff;
     padding-top:5px;
-    width:200px;
+    width:250px;
     height:20px;
     border:1px solid #999999;
-}
-.dropdown-check-list {
-  background-color:#ffffff;
-  display: inline-block;
-}
-.dropdown-check-list .anchor {
-  position: relative;
-  cursor: pointer;
-  display: inline-block;
-  height: 25px;
-  padding: 5px 50px 5px 10px;
-  border:1px solid #999999;
-}
-.dropdown-check-list .anchor:after {
-  position: absolute;
-  content: "";
-  border-left: 2px solid black;
-  border-top: 2px solid black;
-  padding: 5px;
-  right: 10px;
-  top: 20%;
-  -moz-transform: rotate(-135deg);
-  -ms-transform: rotate(-135deg);
-  -o-transform: rotate(-135deg);
-  -webkit-transform: rotate(-135deg);
-  transform: rotate(-135deg);
-}
-.dropdown-check-list .anchor:active:after {
-  right: 8px;
-  top: 21%;
-}
-.dropdown-check-list ul.items {
-  padding: 2px;
-  display: none;
-  margin: 0;
-  border: 1px solid #ccc;
-  border-top: none;
-}
-.dropdown-check-list ul.items li {
-  list-style: none;
-}
-.dropdown-check-list.visible .anchor {
-  color: #0094ff;
-}
-.dropdown-check-list.visible .items {
-  display: block;
 }
