@@ -88,7 +88,7 @@
               Search Terms:
           </h2>
           <p>
-              To automatically fill the boxes, select a movie from the list above or type a movie title into the box below.
+              To automatically fill the boxes, type a movie title into the box below.
           </p>
           <h4>
               <label>Movies:</label> <br />
@@ -96,12 +96,11 @@
               <div id="movieAutocomplete" class = "ajaxresults"></div>
           </h4>
           <p>
-              Please type your search terms into the boxes below, or choose one of the suggested searches.
+              Type your search terms into the boxes below or edit the search terms from a pre-existing movie.
           </p>
           
           <form id="searchForm">
           <h4>
-
               <label>Actors:</label> <br />
               <input type="text" id="actors" name="actors" class = "searchbox" autocomplete="off" onkeyup="getData(this.id, this.value);" /><br />
               <div id="actorAutocomplete" class = "ajaxresults"></div>
@@ -123,48 +122,32 @@
           </h4>
           <h4>
               <label>Genres:</label>
-              <div id="list1" class="dropdown-check-list" tabindex="100">
-                  <span class="anchor">Select Genres:</span>
-                  <ul class="items">
-                      <li><input type="checkbox" value="Crime" />Crime</li>
-                      <li><input type="checkbox" value="Drama" />Drama</li>
-                      <li><input type="checkbox" value="Action" />Action</li>
-                      <li><input type="checkbox" value="Adventure" />Adventure</li>
-                      <li><input type="checkbox" value="Fantasy" />Fantasy</li>
-                      <li><input type="checkbox" value="Sci-Fi" />Sci-Fi</li>
-                      <li><input type="checkbox" value="Comedy" />Comedy</li>
-                      <li><input type="checkbox" value="Family" />Family</li>
-                      <li><input type="checkbox" value="Thriller" />Thriller</li>
-                      <li><input type="checkbox" value="Animation" />Animation</li>
-                      <li><input type="checkbox" value="Musical" />Musical</li>
-                      <li><input type="checkbox" value="Mystery" />Mystery</li>
-                      <li><input type="checkbox" value="War" />War</li>
-                      <li><input type="checkbox" value="Horror" />Horror</li>
-                      <li><input type="checkbox" value="Western" />Western</li>
-                      <li><input type="checkbox" value="Sport" />Sport</li>
-                      <li><input type="checkbox" value="Romance" />Romance</li>
-                      <li><input type="checkbox" value="Music" />Music</li>
-                      <li><input type="checkbox" value="Biography" />Biography</li>
-                      <li><input type="checkbox" value="History" />History</li>
-                      <li><input type="checkbox" value="Documentary" />Documentary</li>
-                      <li><input type="checkbox" value="Short" />Short</li>
-                      <li><input type="checkbox" value="News" />News</li>
-                      <li><input type="checkbox" value="Reality-TV" />Reality-TV</li>
-                  </ul>
-              </div>
-              <script type="text/javascript">
-                  var checkList = document.getElementById('list1');
-                  checkList.getElementsByClassName('anchor')[0].onclick = function (evt) {
-                      if (checkList.classList.contains('visible'))
-                          checkList.classList.remove('visible');
-                      else
-                          checkList.classList.add('visible');
-                  }
-
-                  checkList.onblur = function(evt) {
-                      checkList.classList.remove('visible');
-                  }
-              </script>
+              <select multiple id=genre>
+                  <option value="Crime" />Crime</option>
+                  <option value="Drama" />Drama</option>
+                  <option value="Action" />Action</option>
+                  <option value="Adventure" />Adventure</option>
+                  <option value="Fantasy" />Fantasy</option>
+                  <option value="Sci-Fi" />Sci-Fi</option>
+                  <option value="Comedy" />Comedy</option>
+                  <option value="Family" />Family</option>
+                  <option value="Thriller" />Thriller</option>
+                  <option value="Animation" />Animation</option>
+                  <option value="Musical" />Musical</option>
+                  <option value="Mystery" />Mystery</option>
+                  <option value="War" />War</option>
+                  <option value="Horror" />Horror</option>
+                  <option value="Western" />Western</option>
+                  <option value="Sport" />Sport</option>
+                  <option value="Romance" />Romance</option>
+                  <option value="Music" />Music</option>
+                  <option value="Biography" />Biography</option>
+                  <option value="History" />History</option>
+                  <option value="Documentary" />Documentary</option>
+                  <option value="Short" />Short</option>
+                  <option value="News" />News</option>
+                  <option value="Reality-TV" />Reality-TV</option>
+              </select>
           </h4>
           <h4>
               <label for=MPAA>MPAA Rating:</label>
@@ -194,22 +177,33 @@
       </div>
       <div class="visualizations">
           <h2>
-              Visualizations:
-              
+              Visualization:
           </h2>
-          <p id="movie-recommendations" name="movie-recommendations" />
+          <div id=visualization>
+          </div>
+          <div id=visInteractions>
+              <p>
+                    To view rating and revenue estimates for modified versions of your query, select or unselect search terms below.
+              </p>
+              <ul  id=visualizationList>
+                  <li><input type="checkbox" name="sample1" value="actor1" checked/>Actor1</li>
+                  <li><input type="checkbox" name="sample1" value="actor2" checked/>Actor2</li>
+                  <li><input type="checkbox" name="sample1" value="actor3" checked/>Actor3</li>
+                  <li><input type="checkbox" name="sample1" value="actor4" checked/>Actor4</li>
+              </ul>
+          </div>
       </div>
       <div class="suggested">
           <h2>
-              Upcoming Movies:
+              Recommended Movies:
           </h2>
-          <ul>
-              <li><a href="url">Mad Max: Fury Road</a></li>
-              <li><a href="url">Pitch Perfect 2</a></li>
-              <li><a href="url">I'll See You in My Dreams</a></li>
-              <li><a href="url">Good Kill</a></li>
-              <li><a href="url">The Connection</a></li>
-              <li><a href="url">Set Fire to the Stars</a></li>
+          <ul id=similarList>
+              <li><label><a href="http://www.imdb.com/title/tt1392190/">Mad Max: Fury Road</a></lable></li>
+              <li><label><a href="http://www.imdb.com/title/tt2848292/">Pitch Perfect 2</a></lable></li>
+              <li><label><a href="http://www.imdb.com/title/tt3236120/">I'll See You in My Dreams</a></lable></li>
+              <li><label><a href="http://www.imdb.com/title/tt3297330/">Good Kill</a></lable></li>
+              <li><label><a href="http://www.imdb.com/title/tt2935564/">The Connection</a></lable></li>
+              <li><label><a href="http://www.imdb.com/title/tt3455740/">Set Fire to the Stars</a></lable></li>
           </ul>
       </div>
   </div>
