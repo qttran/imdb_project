@@ -77,13 +77,12 @@
         div.innerHTML = "";
         var svg = dimple.newSvg("#chartContainer", 590, 400);
         for (var index = 0; index < data.length; index++) {
-            //var data = [{"Revenue": "100000", "Rating": "8"},{"Revenue": "102000", "Rating": "6"},{"Revenue": "50000", "Rating": "7"}];
             var newData = [data[index]];
             var myChart = new dimple.chart(svg, newData);
             myChart.setBounds(60, 30, 500, 330)
             var myAxis = myChart.addMeasureAxis("x", "Revenue");
             myAxis.overrideMin = 0;
-            myAxis.overrideMax = 1000000;
+            myAxis.overrideMax = 300000000;
             var myAxis2 = myChart.addMeasureAxis("y", "Rating");
             myAxis2.overrideMin = 0;
             myAxis2.overrideMax = 10;
@@ -112,14 +111,12 @@
             innerHtml += "<li><input type='checkbox' id='genre"+i+"'value="+genreSplit[i]+" checked/>"+genreSplit[i]+"</li>";
         }
         innerHtml += "<li><input type='checkbox' id='mpaa'value="+mpaa+" checked/>"+mpaa+"</div></li>";
-        innerHtml += "<li><input type='checkbox' id='budget'value="+budget+" checked/><output for=fader id=budgetOut>$"+budget+"</output><input type=range min=0 max=3000000 value="+budget+" id=newfader step=10000></li>";
         var list = document.getElementById("visualizationList");
         list.innerHTML=innerHtml;
-        var budgetNew = document.getElementById("newfader");
-        budgetNew.oninput=function(){
-            var budget = document.getElementById("newfader").value;
-            document.getElementById('budgetOut').value = "$"+budget;
-            };
+        var budgetNew = document.getElementById("budget2");
+        budgetNew.value = "$"+budget;
+        var budgetFaderNew = document.getElementById("fader2");
+        budgetFaderNew.value = budget;
         div.style.visibility='visible';
     }
     function getData(field, value){
@@ -281,11 +278,15 @@
                     To view rating and revenue estimates for modified versions of your query, select or unselect search terms below.
               </p>
               <ul  id=visualizationList>
-                  <li><input type="checkbox" name="sample1" value="actor1" checked/>Actor1</li>
-                  <li><input type="checkbox" name="sample1" value="actor2" checked/>Actor2</li>
-                  <li><input type="checkbox" name="sample1" value="actor3" checked/>Actor3</li>
-                  <li><input type="checkbox" name="sample1" value="actor4" checked/>Actor4</li>
               </ul>
+              <label for=fader2>Budget: <output for=fader2 id=budget2>$500000</output></label>
+              <input type=range min=0 max=3000000 value=500000 id=fader2 step=10000 oninput="outputUpdate2(value)">
+              <script>
+                function outputUpdate2(budget) {
+                    document.querySelector('#budget2').value = "$"+budget;
+                }
+              </script>
+              <input type=button id=budgetUpdate value="Update Budget">
           </div>
       </div>
       <div class="suggested">
