@@ -21,8 +21,71 @@
         mpaa = document.forms["searchForm"]["MPAA"].value; //TODO: change if we change genres
         budget = document.forms["searchForm"]["fader"].value;
         getMovieRecommendations(actors, directors, writers, genres, mpaa);
-        fillVisInteractionField(actors, directors, writers, genres, mpaa, budget);
+        //fillVisInteractionField(actors, directors, writers, genres, mpaa, budget);
         getRatingAndRevenue(getCsvLineFormat(actors, directors, writers, genres, mpaa, budget));
+    }
+        
+    function redoSearch(id) {
+        console.log("id" +id);
+        document.getElementById(id).checked = !document.getElementById(id).checked;
+        actorsQuery = document.forms["searchForm"]["actors"].value;
+        directorsQuery = document.forms["searchForm"]["directors"].value;
+        writersQuery = document.forms["searchForm"]["writers"].value;
+        genresQuery = document.forms["searchForm"]["genre"].value;
+        mpaaQuery = document.forms["searchForm"]["MPAA"].value; //TODO: change if we change genres
+        budgetQuery = document.forms["searchForm"]["fader"].value;
+        actors = ""
+        directors = ""
+        writers = ""
+        genres = ""
+        mpaa = ""
+        budget = ""
+        boxes = document.getElementById("visualizationList").getElementsByTagName("*");
+        console.log(boxes.length);
+        for (var i = 0; i < boxes.length; i++) {
+            name = boxes[i].innerText;
+            if (!boxes[i].checked || name == "") {
+                continue
+            }
+            console.log("actorsQuery: "+actorsQuery);
+            if (name.indexOf(actorsQuery) > -1) {
+                console.log("in redosearch: " + name)
+                if (actors != "") {
+                    actors += ", "
+                }
+                actors += name
+            }
+            else if (id.substring(0,8) == "director") {
+                if (directors != "") {
+                    directors += ", "
+                }
+                directors += name
+            }
+            else if (id.substring(0,8) == "writer") {
+                if (writers != "") {
+                    writers += ", "
+                }
+                writers += name
+            }
+            else if (id.substring(0,8) == "genre") {
+                if (writers != "") {
+                    writers += ", "
+                }
+                writers += name
+            }
+            else if (id.substring(0,8) == "mpaa") {
+                if (mpaa != "") {
+                    mpaa += ", "
+                }
+                mpaa += name
+            }
+            else if (id.substring(0,8) == "budget") {
+                if (budget != "") {
+                    budget += ", "
+                }
+                budget += name
+            }
+        }
     }
         
     function getRatingAndRevenue(input) {
@@ -34,11 +97,12 @@
                      d3Data = [];
                      for (var i = 0; i< result_arr.length/2; i++) {
                          object = {};
-                         object["rating"] = parseFloat(result_arr[i*2].replace(/\[/g,"").replace(/\]/g,""));
-                         object["revenue"] = parseFloat(result_arr[i*2+1].replace(/\]/g,"").replace(/\[/g,""));
+                         object["Rating"] = parseFloat(result_arr[i*2].replace(/\[/g,"").replace(/\]/g,""));
+                         object["Revenue"] = parseFloat(result_arr[i*2+1].replace(/\]/g,"").replace(/\[/g,""));
                          d3Data.push(object);
                          console.log(d3Data);
                      }
+                     makeVisualization(d3Data);
                      // you can use 'd3Data' in generating d3 vis
                 });
     }
@@ -71,6 +135,26 @@
                     }
                 });
     }
+    function makeVisualization(data) {
+        var div = document.getElementById("chartContainer");
+        div.innerHTML = "";
+        var svg = dimple.newSvg("#chartContainer", 590, 400);
+        for (var index = 0; index < data.length; index++) {
+            //var data = [{"Revenue": "100000", "Rating": "8"},{"Revenue": "102000", "Rating": "6"},{"Revenue": "50000", "Rating": "7"}];
+            var newData = [data[index]];
+            var myChart = new dimple.chart(svg, newData);
+            myChart.setBounds(60, 30, 500, 330)
+            var myAxis = myChart.addMeasureAxis("x", "Revenue");
+            myAxis.overrideMin = 0;
+            myAxis.overrideMax = 1000000000;
+            var myAxis2 = myChart.addMeasureAxis("y", "Rating");
+            myAxis2.overrideMin = 0;
+            myAxis2.overrideMax = 10;
+            myChart.addSeries(["SKU", "Channel"], dimple.plot.bubble);
+            myChart.addLegend(200, 10, 360, 20, "right");
+            myChart.draw();
+        }
+    }
     function fillVisInteractionField(actors, directors, writers, genres, mpaa, budget) {
         var div = document.getElementById("visInteractions");
         var actorSplit = actors.split(", ");
@@ -78,8 +162,10 @@
         var writerSplit = writers.split(", ");
         var genreSplit = genres.split(", ");
         var innerHtml = "";
+        var checkbox_num = 0;
         for (i = 0; i < actorSplit.length; i+= 1) {
-            innerHtml += "<li><input type='checkbox' id='actor"+i+"'value="+actorSplit[i]+" checked/>"+actorSplit[i]+"</li>";
+            id = 'actor' + i;
+            innerHtml += "<li><input type='checkbox' onclick='redoSearch(" +id + ")' id='actor"+i+"'value="+actorSplit[i]+" checked/>"+actorSplit[i]+"</li>";
         }
         for (i = 0; i < directorSplit.length; i+= 1) {
             innerHtml += "<li><input type='checkbox' id='director"+i+"'value="+directorSplit[i]+" checked/>"+directorSplit[i]+"</li>";
@@ -91,7 +177,7 @@
             innerHtml += "<li><input type='checkbox' id='genre"+i+"'value="+genreSplit[i]+" checked/>"+genreSplit[i]+"</li>";
         }
         innerHtml += "<li><input type='checkbox' id='mpaa'value="+mpaa+" checked/>"+mpaa+"</div></li>";
-        innerHtml += "<li><input type='checkbox' id='budget'value="+budget+" checked/><output for=fader id=budgetOut>$"+budget+"</output><input type=range min=0 max=3000000 value="+budget+" id=newfader step=10000></li>";
+        innerHtml += "<li><input type='checkbox' id='budget'value="+budget+" checked/><output for=fader id=budgetOut>$"+budget+"</output><input type=range min=0 max=200000000 value="+budget+" id=newfader step=10000></li>";
         var list = document.getElementById("visualizationList");
         list.innerHTML=innerHtml;
         var budgetNew = document.getElementById("newfader");
@@ -232,8 +318,8 @@
               </select>
           </h4>
           <h4>
-              <label for=fader>Budget: <output for=fader id=budget>$500000</output></label>
-              <input type=range min=0 max=3000000 value=500000 id=fader step=10000 oninput="outputUpdate(value)">
+              <label for=fader>Budget: <output for=fader id=budget>$30000000</output></label>
+              <input type=range min=0 max=200000000 value=30000000 id=fader step=10000 oninput="outputUpdate(value)">
               <script>
                 function outputUpdate(budget) {
                     document.querySelector('#budget').value = "$"+budget;
@@ -250,22 +336,9 @@
               Visualization:
           </h2>
           <div id=visualization>
+              <script src="http://d3js.org/d3.v3.min.js"></script>
+              <script src="http://dimplejs.org/dist/dimple.v2.1.2.min.js"></script>
               <div id="chartContainer">
-                  <script src="/lib/d3.v3.4.8.js"></script>
-                  <script src="http://dimplejs.org/dist/dimple.v2.1.2.min.js"></script>
-                  <script type="text/javascript">
-                      var svg = dimple.newSvg("#chartContainer", 590, 400);
-                      d3.tsv("/data/example_data.tsv", function (data) {
-                          data = dimple.filterData(data, "Date", "01/12/2012");
-                          var myChart = new dimple.chart(svg, data);
-                          myChart.setBounds(60, 30, 500, 330)
-                          myChart.addMeasureAxis("x", "Unit Sales");
-                          myChart.addMeasureAxis("y", "Operating Profit");
-                          myChart.addSeries(["SKU", "Channel"], dimple.plot.bubble);
-                          myChart.addLegend(200, 10, 360, 20, "right");
-                          myChart.draw();
-                      });
-                  </script>
               </div>
           </div>
           <div id=visInteractions>

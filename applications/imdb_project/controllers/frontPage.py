@@ -135,16 +135,24 @@ def movieLiveSearch():
     for i, suggested_movie in enumerate(suggested_movies): # Return
         if (suggested_movie not in titles):
             titles.append(suggested_movie)
+
+    for i in range(0,len(titles)):
+        if titles[i].MPAA_rating == "":
+            titles[i].MPAA_rating = "G"
+
     return DIV(*[DIV(k.title,
-                     _onclick="""jQuery('#movies').val('%s'); 
+                     _onclick="""jQuery('#movies').val('%s');
                                  jQuery('#actors').val('%s');
                                  jQuery('#directors').val('%s');
                                  jQuery('#writers').val('%s');
+                                 jQuery('#MPAA').val('%s');
                                  hide()"""
                                  % (k.title,
                                     k.cast_names.replace(";", ", "),
                                     k.director_names.replace(";", ", "),
-                                    k.writer_names.replace(";", ", ")),
+                                    k.writer_names.replace(";", ", "),
+                                    k.MPAA_rating
+                                    ),
                      _onmouseover="this.style.backgroundColor='yellow'",
                      _onmouseout="this.style.backgroundColor='white'",
                      _id="resultLiveSearch"
