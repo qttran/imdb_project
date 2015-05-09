@@ -96,6 +96,10 @@ p {
     margin-left: -200px;
     margin-bottom: 20px;
 }
+#newfader{
+    width:100px;
+    display:inline;
+}
 #similarList{
     padding-top:0px;
     text-align:center;
