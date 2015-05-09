@@ -53,9 +53,15 @@
         for (i = 0; i < genreSplit.length; i+= 1) {
             innerHtml += "<li><input type='checkbox' id='genre"+i+"'value="+genreSplit[i]+" checked/>"+genreSplit[i]+"</li>";
         }
-        innerHtml += "<li><input type='checkbox' id='mpaa'value="+mpaa+" checked/>"+mpaa+"</li>";
+        innerHtml += "<li><input type='checkbox' id='mpaa'value="+mpaa+" checked/>"+mpaa+"</div></li>";
+        innerHtml += "<li><input type='checkbox' id='budget'value="+budget+" checked/><output for=fader id=budgetOut>$"+budget+"</output><input type=range min=0 max=3000000 value="+budget+" id=newfader step=10000></li>";
         var list = document.getElementById("visualizationList");
         list.innerHTML=innerHtml;
+        var budgetNew = document.getElementById("newfader");
+        budgetNew.oninput=function(){
+            var budget = document.getElementById("newfader").value;
+            document.getElementById('budgetOut').value = "$"+budget;
+            };
         div.style.visibility='visible';
     }
     function getData(field, value){
