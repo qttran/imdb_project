@@ -25,25 +25,20 @@ def getRatingAndRevenue():
     output = "keke"
 
     last_feature_id = 294
-    clf_revenue_file = binary_file_folder + "clf_revenue.p"
-    clf_rating_file = binary_file_folder + "clf_rating.p"
-    random_forest_revenue_file = binary_file_folder + "random_forest_revenue.p"
-    random_forest_rating_file = binary_file_folder + "random_forest_rating.p"
     preprocessed_features_file = binary_file_folder + "preprocessed_features.p"
-
-    clf_revenue = pickle.load(open(clf_revenue_file, "rb"))
-    clf_rating = pickle.load(open(clf_rating_file, "rb"))
-    #random_forest_revenue = pickle.load(open(random_forest_revenue_file, "rb"))
-    #random_forest_rating = pickle.load(open(random_forest_rating_file, "rb"))
     preprocessed_features = pickle.load(open(preprocessed_features_file, "rb"))
 
     processed_input = preprocess_movie_input(csvInput)
     if len(processed_input) == 0:
         return "INPUT ERR, INPUT ERR"
     ml_input = Feature_Extractor(processed_input, last_feature_id, preprocessed_features)
-    predicted_revenue = clf_revenue.predict(ml_input)
-    predicted_rating = clf_rating.predict(ml_input)
-    return str(predicted_rating) + "," + str(predicted_revenue)
+
+    rating_ridge, revenue_ridge = train(ml_input, "clf_rating_ridge.p", "clf_revenue_ridge.p")
+    rating_lasso, revenue_lasso = train(ml_input, "clf_rating_lasso_v3.p", "clf_revenue_lasso_v3.p")
+    #rating_random_forest, revenue_random_forest = train(ml_input, "random_forest_rating.p", "random_forest_revenue.p")
+    #rating_tree, revenue_tree = train(ml_input, "tree_rating.p", "tree_revenue.p")
+
+    return str(rating_lasso) + "," + str(revenue_lasso) + "," + str(rating_ridge) + "," + str(revenue_ridge)
 
 def movieSuggestions():
     actors= request.vars.values()[3].split(", ")
@@ -299,3 +294,15 @@ def preprocess_movie_input(csvLine):
             top_actors, writers, rating, vote_count, genres,
             MPAA_rating, revenue, budget)
     return preprocessed_movies_top_actors
+
+def train(ml_input, rating_clf_file, revenue_clf_file):
+    clf_revenue_file = binary_file_folder + revenue_clf_file
+    clf_rating_file = binary_file_folder + rating_clf_file
+    
+    clf_revenue = pickle.load(open(clf_revenue_file, "rb"))
+    clf_rating = pickle.load(open(clf_rating_file, "rb"))
+    
+    predicted_rating = clf_rating.predict(ml_input)
+    predicted_revenue = clf_revenue.predict(ml_input)
+    
+    return (predicted_rating, predicted_revenue)
