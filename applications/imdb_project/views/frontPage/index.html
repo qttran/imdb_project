@@ -254,17 +254,27 @@
                   <script src="/lib/d3.v3.4.8.js"></script>
                   <script src="http://dimplejs.org/dist/dimple.v2.1.2.min.js"></script>
                   <script type="text/javascript">
+                      var temp1 = {"Revenue" : 100000, "Rating" : 8};
+                      var temp2 = {"Revenue" : 50000, "Rating" : 3};
+                      var temp3 = {"Revenue" : 1000, "Rating" : 5};
+                      var temp4 = {"Revenue" : 20000, "Rating" : 4};
+                      var data = [temp1, temp2, temp3, temp4];
                       var svg = dimple.newSvg("#chartContainer", 590, 400);
-                      d3.tsv("/data/example_data.tsv", function (data) {
-                          data = dimple.filterData(data, "Date", "01/12/2012");
-                          var myChart = new dimple.chart(svg, data);
+                      for (var index = 0; index < data.length; index++) {
+                          //var data = [{"Revenue": "100000", "Rating": "8"},{"Revenue": "102000", "Rating": "6"},{"Revenue": "50000", "Rating": "7"}];
+                          var newData = [data[index]];
+                          var myChart = new dimple.chart(svg, newData);
                           myChart.setBounds(60, 30, 500, 330)
-                          myChart.addMeasureAxis("x", "Unit Sales");
-                          myChart.addMeasureAxis("y", "Operating Profit");
+                          var myAxis = myChart.addMeasureAxis("x", "Revenue");
+                          myAxis.overrideMin = 0;
+                          myAxis.overrideMax = 1000000;
+                          var myAxis2 = myChart.addMeasureAxis("y", "Rating");
+                          myAxis2.overrideMin = 0;
+                          myAxis2.overrideMax = 10;
                           myChart.addSeries(["SKU", "Channel"], dimple.plot.bubble);
                           myChart.addLegend(200, 10, 360, 20, "right");
                           myChart.draw();
-                      });
+                      }
                   </script>
               </div>
           </div>
