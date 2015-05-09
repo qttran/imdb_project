@@ -34,8 +34,8 @@
                      d3Data = [];
                      for (var i = 0; i< result_arr.length/2; i++) {
                          object = {};
-                         object["rating"] = parseFloat(result_arr[i*2]);
-                         object["revenue"] = parseFloat(result_arr[i*2+1]);
+                         object["rating"] = parseFloat(result_arr[i*2].replace(/\[/g,"").replace(/\]/g,""));
+                         object["revenue"] = parseFloat(result_arr[i*2+1].replace(/\]/g,"").replace(/\[/g,""));
                          d3Data.push(object);
                          console.log(d3Data);
                      }
