@@ -250,8 +250,8 @@
               </select>
           </h4>
           <h4>
-              <label for=fader>Budget: <output for=fader id=budget>$500000</output></label>
-              <input type=range min=0 max=3000000 value=500000 id=fader step=10000 oninput="outputUpdate(value)">
+              <label for=fader>Budget: <output for=fader id=budget>$5000000</output></label>
+              <input type=range min=0 max=300000000 value=500000 id=fader step=10000 oninput="outputUpdate(value)">
               <script>
                 function outputUpdate(budget) {
                     document.querySelector('#budget').value = "$"+budget;
@@ -280,7 +280,7 @@
               <ul  id=visualizationList>
               </ul>
               <label for=fader2>Budget: <output for=fader2 id=budget2>$500000</output></label>
-              <input type=range min=0 max=3000000 value=500000 id=fader2 step=10000 oninput="outputUpdate2(value)">
+              <input type=range min=0 max=300000000 value=500000 id=fader2 step=10000 oninput="outputUpdate2(value)">
               <script>
                 function outputUpdate2(budget) {
                     document.querySelector('#budget2').value = "$"+budget;
