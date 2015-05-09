@@ -73,8 +73,8 @@
                 });
     }
     function makeVisualization(data) {
-        var div = document.getElementById("#chartContainer");
-        div.innerHtml = "";
+        var div = document.getElementById("chartContainer");
+        div.innerHTML = "";
         var svg = dimple.newSvg("#chartContainer", 590, 400);
         for (var index = 0; index < data.length; index++) {
             //var data = [{"Revenue": "100000", "Rating": "8"},{"Revenue": "102000", "Rating": "6"},{"Revenue": "50000", "Rating": "7"}];
