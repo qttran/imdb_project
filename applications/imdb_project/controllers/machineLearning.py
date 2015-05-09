@@ -216,7 +216,6 @@ def Regression_Models(inputs, outputs_rating, outputs_revenue, preprocessed_feat
 	clf_revenue.fit(inputs, outputs_revenue)
 	#print 'The R-square of prediction is', clf_revenue.score(inputs, outputs_revenue)
     #print clf_revenue.alpha_, clf_revenue.coef_
-    pickle.dump(clf_revenue, open('clf_revenue.p', 'wb'))
     clf_rating = linear_model.LinearRegression(normalize = True)
 	clf_rating.fit(inputs, outputs_rating)
 	#print 'The R-square of predition is', clf_rating.score(inputs, outputs_rating)

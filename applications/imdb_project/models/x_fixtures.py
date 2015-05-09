@@ -7,6 +7,8 @@ db.define_table('top_actors',
                 Field('actor_name'))
 db.define_table('directors',
                 Field('director_name'))
+db.define_table('writers',
+                Field('writer_name'))
 db.define_table('movies',
                 Field('title'),
                 Field('year'),
@@ -26,12 +28,15 @@ db.define_table('movies',
 csv_data_folder = os.getcwd() + "/applications/imdb_project/csv_data/"
 top_actors_file = csv_data_folder + "top_actors.csv"
 directors_file = csv_data_folder + "directors.csv"
+writers_file = csv_data_folder + "writers.csv"
 movies_file = csv_data_folder + "movies_top_actors.csv"
 
 if db(db.top_actors).count() == 0:
     db.top_actors.import_from_csv_file(open(top_actors_file))
 if db(db.directors.director_name.like("%")).count() == 0:
     db.directors.import_from_csv_file(open(directors_file))
+if db(db.writers.writer_name.like("%")).count() == 0:
+    db.writers.import_from_csv_file(open(writers_file))
 if db(db.movies).count() == 0:
     db.movies.import_from_csv_file(open(movies_file))
 

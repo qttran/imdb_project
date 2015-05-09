@@ -22,7 +22,34 @@
         budget = document.forms["searchForm"]["fader"].value;
         getMovieRecommendations(actors, directors, writers, genres, mpaa);
         fillVisInteractionField(actors, directors, writers, genres, mpaa, budget);
+        getRatingAndRevenue(getCsvLineFormat(actors, directors, writers, genres, mpaa, budget));
     }
+        
+    function getRatingAndRevenue(input) {
+         $.post("{{=URL(r=request,f='getRatingAndRevenue')}}",{input: input},function(result){
+                    rating = result.split(",")[0];
+                    revenue = result.split(",")[1];
+                     console.log(result);
+                });
+    }
+    
+    function getSemicolonFormat(input) {
+        input = input.replace(/\, /g,";");
+        if(input.substr(-1) == ";" ) {
+            input = input.substring(0, str.length - 1);
+        }
+        return input;
+    }
+    function getCsvLineFormat(actors, directors, writers, genres, mpaa, budget) {
+        directors_names = getSemicolonFormat(directors);
+        actors_names = getSemicolonFormat(actors);
+        writers_names = getSemicolonFormat(writers);
+        genres_sc = getSemicolonFormat(genres);
+        input = "title,id,year,director_ids," + directors + ",cast_ids," + actors_names + ",writer_ids," + 
+            writers_names + ",rating,vote_count," + genres_sc + "," + mpaa + ",revenue," + budget;
+        return input
+    }
+        
     function getMovieRecommendations(actors, directors, writers, genres, mpaa) {
         $.post("{{=URL(r=request,f='movieSuggestions')}}",{actors:actors, directors:directors, writers:writers, genres:genres,mpaa:mpaa},function(result){
                     movies = result.split(",");
@@ -59,6 +86,12 @@
         div.style.visibility='visible';
     }
     function getData(field, value){
+        if (value[value.length - 1] == ",") {
+            value = value.substring(0, value.length - 1)
+        }
+        else if (value[value.length - 2] == ",") {
+            value = value.substring(0, value.length - 2)
+        }
         if(value != "" && value.length >= 3){
             if (field == "actors") {
                 $("#actorAutocomplete").show();
@@ -81,8 +114,9 @@
             else if (field == "writers") {
                 $("#writerAutocomplete").show();
                 $.post("{{=URL(r=request,f='writerLiveSearch')}}",{partialstr:value},function(result){
-                    $("writerAutocomplete").html(result);
+                    $("#writerAutocomplete").html(result);
                 });
+                console.log("in writers");
             }
         }else{
             hide();
@@ -132,12 +166,12 @@
           </h4>
           <h4>
               <label>Directors:</label>  <br />
-              <input type="text" id="directors" name="directors" autocomplete="off" onkeyup="getData(this.id, this.value);" /><br />
+              <input type="text" id="directors" name="directors" onkeyup="getData(this.id, this.value);" /><br />
               <div id="directorAutocomplete" class = "ajaxresults"></div>
           </h4>
           <h4>
               <label>Writers:</label>  <br />
-              <input type="text" id="writers" name="writers" autocomplete="off" onkeyup="getData(this.id, this.value);" /><br />
+              <input type="text" id="writers" name="writers" onkeyup="getData(this.id, this.value);" /><br />
               <div id="writerAutocomplete" class = "ajaxresults"></div>
           </h4>
           <h4>

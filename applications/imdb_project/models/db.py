@@ -95,6 +95,8 @@ db.define_table('top_actors',
                 Field('actor_name'))
 db.define_table('directors',
                 Field('director_name'))
+db.define_table('writers',
+                Field('writer_name'))
 db.define_table('movies',
                 Field('title'),
                 Field('year'),
