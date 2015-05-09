@@ -60,7 +60,7 @@ p {
     background-repeat: repeat-x;
     position: absolute;
     width: 300px;
-    height: 1080px;
+    height: 850px;
     padding: 20px;
     left: 50%;
     margin-left: -520px;
@@ -88,12 +88,12 @@ p {
     background-color: #8B9DA6;
     background-image: url("/imdb_project/static/images/SectionBodyBackground.png");
     background-repeat: repeat-x;
-    width: 720px;
-    height: 210px;
+    width: 1040px;
+    height: 180px;
     left: 50%;
     padding: 20px;
     margin-top: 1152px;
-    margin-left: -200px;
+    margin-left: -520px;
     margin-bottom: 20px;
 }
 #newfader{

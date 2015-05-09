@@ -34,11 +34,12 @@
                      d3Data = [];
                      for (var i = 0; i< result_arr.length/2; i++) {
                          object = {};
-                         object["rating"] = parseFloat(result_arr[i*2].replace(/\[/g,"").replace(/\]/g,""));
-                         object["revenue"] = parseFloat(result_arr[i*2+1].replace(/\]/g,"").replace(/\[/g,""));
+                         object["Rating"] = parseFloat(result_arr[i*2].replace(/\[/g,"").replace(/\]/g,""));
+                         object["Revenue"] = parseFloat(result_arr[i*2+1].replace(/\]/g,"").replace(/\[/g,""));
                          d3Data.push(object);
                          console.log(d3Data);
                      }
+                     makeVisualization(d3Data);
                      // you can use 'd3Data' in generating d3 vis
                 });
     }
@@ -70,6 +71,24 @@
                         }
                     }
                 });
+    }
+    function makeVisualization(data) {
+        var svg = dimple.newSvg("#chartContainer", 590, 400);
+        for (var index = 0; index < data.length; index++) {
+            //var data = [{"Revenue": "100000", "Rating": "8"},{"Revenue": "102000", "Rating": "6"},{"Revenue": "50000", "Rating": "7"}];
+            var newData = [data[index]];
+            var myChart = new dimple.chart(svg, newData);
+            myChart.setBounds(60, 30, 500, 330)
+            var myAxis = myChart.addMeasureAxis("x", "Revenue");
+            myAxis.overrideMin = 0;
+            myAxis.overrideMax = 1000000;
+            var myAxis2 = myChart.addMeasureAxis("y", "Rating");
+            myAxis2.overrideMin = 0;
+            myAxis2.overrideMax = 10;
+            myChart.addSeries(["SKU", "Channel"], dimple.plot.bubble);
+            myChart.addLegend(200, 10, 360, 20, "right");
+            myChart.draw();
+        }
     }
     function fillVisInteractionField(actors, directors, writers, genres, mpaa, budget) {
         var div = document.getElementById("visInteractions");
@@ -253,29 +272,6 @@
               <div id="chartContainer">
                   <script src="http://d3js.org/d3.v3.min.js"></script>
                   <script src="http://dimplejs.org/dist/dimple.v2.1.2.min.js"></script>
-                  <script type="text/javascript">
-                      var temp1 = {"Revenue" : 100000, "Rating" : 8};
-                      var temp2 = {"Revenue" : 50000, "Rating" : 3};
-                      var temp3 = {"Revenue" : 1000, "Rating" : 5};
-                      var temp4 = {"Revenue" : 20000, "Rating" : 4};
-                      var data = [temp1, temp2, temp3, temp4];
-                      var svg = dimple.newSvg("#chartContainer", 590, 400);
-                      for (var index = 0; index < data.length; index++) {
-                          //var data = [{"Revenue": "100000", "Rating": "8"},{"Revenue": "102000", "Rating": "6"},{"Revenue": "50000", "Rating": "7"}];
-                          var newData = [data[index]];
-                          var myChart = new dimple.chart(svg, newData);
-                          myChart.setBounds(60, 30, 500, 330)
-                          var myAxis = myChart.addMeasureAxis("x", "Revenue");
-                          myAxis.overrideMin = 0;
-                          myAxis.overrideMax = 1000000;
-                          var myAxis2 = myChart.addMeasureAxis("y", "Rating");
-                          myAxis2.overrideMin = 0;
-                          myAxis2.overrideMax = 10;
-                          myChart.addSeries(["SKU", "Channel"], dimple.plot.bubble);
-                          myChart.addLegend(200, 10, 360, 20, "right");
-                          myChart.draw();
-                      }
-                  </script>
               </div>
           </div>
           <div id=visInteractions>
