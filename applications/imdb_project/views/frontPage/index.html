@@ -73,6 +73,8 @@
                 });
     }
     function makeVisualization(data) {
+        var div = document.getElementById("#chartContainer");
+        div.innerHtml = "";
         var svg = dimple.newSvg("#chartContainer", 590, 400);
         for (var index = 0; index < data.length; index++) {
             //var data = [{"Revenue": "100000", "Rating": "8"},{"Revenue": "102000", "Rating": "6"},{"Revenue": "50000", "Rating": "7"}];
@@ -269,9 +271,9 @@
               Visualization:
           </h2>
           <div id=visualization>
+              <script src="http://d3js.org/d3.v3.min.js"></script>
+              <script src="http://dimplejs.org/dist/dimple.v2.1.2.min.js"></script>
               <div id="chartContainer">
-                  <script src="http://d3js.org/d3.v3.min.js"></script>
-                  <script src="http://dimplejs.org/dist/dimple.v2.1.2.min.js"></script>
               </div>
           </div>
           <div id=visInteractions>
