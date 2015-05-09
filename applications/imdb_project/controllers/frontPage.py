@@ -35,10 +35,12 @@ def getRatingAndRevenue():
 
     rating_ridge, revenue_ridge = train(ml_input, "clf_rating_ridge.p", "clf_revenue_ridge.p")
     rating_lasso, revenue_lasso = train(ml_input, "clf_rating_lasso_v3.p", "clf_revenue_lasso_v3.p")
+    rating_clf, revenue_clf = train(ml_input, "clf_rating_linearR.p", "clf_revenue_linearR.p")
+    
     #rating_random_forest, revenue_random_forest = train(ml_input, "random_forest_rating.p", "random_forest_revenue.p")
     #rating_tree, revenue_tree = train(ml_input, "tree_rating.p", "tree_revenue.p")
 
-    return str(rating_lasso) + "," + str(revenue_lasso) + "," + str(rating_ridge) + "," + str(revenue_ridge)
+    return str(rating_clf) + "," + str(revenue_clf)+ "," +  str(rating_lasso) + "," + str(revenue_lasso) + "," + str(rating_ridge) + "," + str(revenue_ridge)
 
 def movieSuggestions():
     actors= request.vars.values()[3].split(", ")
