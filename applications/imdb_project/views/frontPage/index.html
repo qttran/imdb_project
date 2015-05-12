@@ -20,74 +20,71 @@
         genres = document.forms["searchForm"]["genre"].value;
         mpaa = document.forms["searchForm"]["MPAA"].value; //TODO: change if we change genres
         budget = document.forms["searchForm"]["fader"].value;
-        console.log("budget " + budget)
 
         getMovieRecommendations(actors, directors, writers, genres, mpaa);
-        //fillVisInteractionField(actors, directors, writers, genres, mpaa, budget);
+        fillVisInteractionField(actors, directors, writers, genres, mpaa, budget);
         getRatingAndRevenue(getCsvLineFormat(actors, directors, writers, genres, mpaa, budget));
     }
         
-    function redoSearch(id) {
-        console.log("id" +id);
-        document.getElementById(id).checked = !document.getElementById(id).checked;
-        actorsQuery = document.forms["searchForm"]["actors"].value;
-        directorsQuery = document.forms["searchForm"]["directors"].value;
-        writersQuery = document.forms["searchForm"]["writers"].value;
-        genresQuery = document.forms["searchForm"]["genre"].value;
-        mpaaQuery = document.forms["searchForm"]["MPAA"].value; //TODO: change if we change genres
-        budgetQuery = document.forms["searchForm"]["fader"].value;
-        actors = ""
-        directors = ""
-        writers = ""
-        genres = ""
-        mpaa = ""
-        budget = ""
-        boxes = document.getElementById("visualizationList").getElementsByTagName("*");
-        console.log(boxes.length);
-        for (var i = 0; i < boxes.length; i++) {
-            name = boxes[i].innerText;
-            if (!boxes[i].checked || name == "") {
-                continue
-            }
-            console.log("actorsQuery: "+actorsQuery);
-            if (name.indexOf(actorsQuery) > -1) {
-                console.log("in redosearch: " + name)
-                if (actors != "") {
-                    actors += ", "
-                }
-                actors += name
-            }
-            else if (id.substring(0,8) == "director") {
-                if (directors != "") {
-                    directors += ", "
-                }
-                directors += name
-            }
-            else if (id.substring(0,8) == "writer") {
-                if (writers != "") {
-                    writers += ", "
-                }
-                writers += name
-            }
-            else if (id.substring(0,8) == "genre") {
-                if (writers != "") {
-                    writers += ", "
-                }
-                writers += name
-            }
-            else if (id.substring(0,8) == "mpaa") {
-                if (mpaa != "") {
-                    mpaa += ", "
-                }
-                mpaa += name
-            }
-            else if (id.substring(0,8) == "budget") {
-                if (budget != "") {
-                    budget += ", "
-                }
-                budget += name
+    function redoSearch() {
+        actors = [];
+        directors = [];
+        writers = []
+        genres = [];
+        box = "actor" + 0;
+        i = 0;
+        while (document.getElementById(box) != null) {
+            value = document.getElementById(box).value;
+            checked = document.getElementById(box).checked;
+            i += 1;
+            box = "actor" + i;
+            if (checked) {
+                actors.push(value)
             }
         }
+        box = "director" + 0;
+        i = 0;
+        while (document.getElementById(box) != null) {
+            value = document.getElementById(box).value;
+            checked = document.getElementById(box).checked;
+            i += 1;
+            box = "director" + i;
+            if (checked) {
+                directors.push(value)
+            }
+        }
+        box = "writer" + 0;
+        i = 0;
+        while (document.getElementById(box) != null) {
+            value = document.getElementById(box).value;
+            checked = document.getElementById(box).checked;
+            i += 1;
+            box = "writer" + i;
+            if (checked) {
+                writers.push(value)
+            }
+        }
+        box = "genre" + 0;
+        i = 0;
+        while (document.getElementById(box) != null) {
+            value = document.getElementById(box).value;
+            checked = document.getElementById(box).checked;
+            i += 1;
+            box = "genre" + i;
+            if (checked) {
+                genres.push(value)
+            }
+        }
+        actorsQuery = actors.join(", ");
+        console.log("actorQuery: " +actorsQuery);
+        writersQuery = writers.join(", ");
+        genresQuery = genres.join(", ");
+        directorsQuery = directors.join(", ");
+        mpaaQuery = document.forms["searchForm"]["MPAA"].value; //TODO: change if we change genres
+        budgetQuery = document.forms["searchForm"]["fader"].value;
+        csvLine = getCsvLineFormat(actorsQuery,directorsQuery,writersQuery,genresQuery, mpaaQuery, budgetQuery);
+        console.log("csv line " + getCsvLineFormat(actorsQuery,directorsQuery,writersQuery,genresQuery, mpaaQuery, budgetQuery));
+        getRatingAndRevenue(csvLine);
     }
         
     function getRatingAndRevenue(input) {
@@ -167,16 +164,16 @@
         var checkbox_num = 0;
         for (i = 0; i < actorSplit.length; i+= 1) {
             id = 'actor' + i;
-            innerHtml += "<li><input type='checkbox' onclick='redoSearch(" +id + ")' id='actor"+i+"'value="+actorSplit[i]+" checked/>"+actorSplit[i]+"</li>";
+            innerHtml += "<li><input type='checkbox' onclick='redoSearch()' id='actor"+i+"' value='"+actorSplit[i]+"' checked/>"+actorSplit[i]+"</li>";
         }
         for (i = 0; i < directorSplit.length; i+= 1) {
-            innerHtml += "<li><input type='checkbox' id='director"+i+"'value="+directorSplit[i]+" checked/>"+directorSplit[i]+"</li>";
+            innerHtml += "<li><input type='checkbox'  onclick='redoSearch()' id='director"+i+"'value='" +directorSplit[i]+"' checked/>"+directorSplit[i]+"</li>";
         }
         for (i = 0; i < writerSplit.length; i+= 1) {
-            innerHtml += "<li><input type='checkbox' id='writer"+i+"'value="+writerSplit[i]+" checked/>"+writerSplit[i]+"</li>";
+            innerHtml += "<li><input type='checkbox' onclick='redoSearch()' id='writer"+i+"'value='" +writerSplit[i]+"' checked/>"+writerSplit[i]+"</li>";
         }
         for (i = 0; i < genreSplit.length; i+= 1) {
-            innerHtml += "<li><input type='checkbox' id='genre"+i+"'value="+genreSplit[i]+" checked/>"+genreSplit[i]+"</li>";
+            innerHtml += "<li><input type='checkbox' onclick='redoSearch()' id='genre"+i+"'value='" +genreSplit[i]+"' checked/>"+genreSplit[i]+"</li>";
         }
         innerHtml += "<li><input type='checkbox' id='mpaa'value="+mpaa+" checked/>"+mpaa+"</div></li>";
         innerHtml += "<li><input type='checkbox' id='budget'value="+budget+" checked/><output for=fader id=budgetOut>$"+budget+"</output><input type=range min=0 max=200000000 value="+budget+" id=newfader step=10000></li>";
@@ -206,7 +203,6 @@
                 $("#movieAutocomplete").show();
                 $.post("{{=URL(r=request,f='movieLiveSearch')}}",{partialstr:value},function(result){
                     $("#movieAutocomplete").html(result);
-                    console.log(result);
                 });
             }
             else if (field == "directors") {
@@ -220,7 +216,6 @@
                 $.post("{{=URL(r=request,f='writerLiveSearch')}}",{partialstr:value},function(result){
                     $("#writerAutocomplete").html(result);
                 });
-                console.log("in writers");
             }
         }else{
             hide();
