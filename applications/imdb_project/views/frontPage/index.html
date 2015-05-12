@@ -20,6 +20,8 @@
         genres = document.forms["searchForm"]["genre"].value;
         mpaa = document.forms["searchForm"]["MPAA"].value; //TODO: change if we change genres
         budget = document.forms["searchForm"]["fader"].value;
+        console.log("budget " + budget)
+
         getMovieRecommendations(actors, directors, writers, genres, mpaa);
         //fillVisInteractionField(actors, directors, writers, genres, mpaa, budget);
         getRatingAndRevenue(getCsvLineFormat(actors, directors, writers, genres, mpaa, budget));
@@ -119,8 +121,9 @@
         actors_names = getSemicolonFormat(actors);
         writers_names = getSemicolonFormat(writers);
         genres_sc = getSemicolonFormat(genres);
-        input = "title,id,year,director_ids," + directors + ",cast_ids," + actors_names + ",writer_ids," + 
+        input = "title,id,year,director_ids," + directors_names + ",cast_ids," + actors_names + ",writer_ids," + 
             writers_names + ",rating,vote_count," + genres_sc + "," + mpaa + ",revenue," + budget;
+        console.log(input)
         return input
     }
         
@@ -203,6 +206,7 @@
                 $("#movieAutocomplete").show();
                 $.post("{{=URL(r=request,f='movieLiveSearch')}}",{partialstr:value},function(result){
                     $("#movieAutocomplete").html(result);
+                    console.log(result);
                 });
             }
             else if (field == "directors") {

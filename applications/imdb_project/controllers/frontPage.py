@@ -147,10 +147,10 @@ def movieLiveSearch():
                                  jQuery('#writers').val('%s');
                                  jQuery('#MPAA').val('%s');
                                  hide()"""
-                                 % (k.title,
-                                    k.cast_names.replace(";", ", "),
-                                    k.director_names.replace(";", ", "),
-                                    k.writer_names.replace(";", ", "),
+                                 % (k.title.replace("'",""),
+                                    k.cast_names.replace(";", ", ").replace("'","\\'"),
+                                    k.director_names.replace(";", ", ").replace("'","\\'"),
+                                    k.writer_names.replace(";", ", ").replace("'","\\'"),
                                     k.MPAA_rating
                                     ),
                      _onmouseover="this.style.backgroundColor='yellow'",
@@ -258,7 +258,7 @@ def Feature_Extractor(line, last_feature_id, preprocessed_features):
 	writers = line[4]
 	genres = line[7]
 	MPAA_rating = line[8]
-	revenue, budget = line[9], line[10]
+	budget = line[10]
 
 	inputs = np.zeros(last_feature_id + 1)
 	inputs[0] = budget
@@ -293,16 +293,16 @@ def preprocess_movie_input(csvLine):
     writers = line[8].split(';')
     rating, vote_count = line[9], line[10]
     genres = line[11].split(';')
-    MPAA_rating, revenue, budget = line[12], line[13], line[14]
+    MPAA_rating, budget = line[12], line[14]
     if (MPAA_rating == "G"):
         MPAA_rating = ""
 
-    if directors == [] or top_actors == [] or writers == [] or genres == [] or revenue == '' or budget == '':
+    if directors == [] or top_actors == [] or writers == [] or genres == [] or budget == '':
         return []
     else:
         preprocessed_movies_top_actors = (title, year, directors,
             top_actors, writers, rating, vote_count, genres,
-            MPAA_rating, revenue, budget)
+            MPAA_rating, 0, budget)
     return preprocessed_movies_top_actors
 
 def train(ml_input, rating_clf_file, revenue_clf_file):
