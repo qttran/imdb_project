@@ -103141,4 +103141,41 @@ ag17
 F3000000.0
 F5500000.0
 tp50770
+a(S'Yennai Arindhaal'
+p50771
+I2015
+(lp50772
+S'Gautham Menon'
+p50773
+a(lp50774
+S'Ajith Kumar'
+p50775
+aS'Arun Vijay'
+p50776
+aS'Trisha Krishnan'
+p50777
+aS'Anushka Shetty'
+p50778
+aS'Vivek'
+p50779
+a(lp50780
+S'Thiagarajan Kumararaja'
+p50781
+aS'Gautham Menon'
+p50782
+aS'Shridhar Raghavan'
+p50783
+aF7.8
+I3322
+(lp50784
+S'Action'
+p50785
+aS'Drama'
+p50786
+aS'Thriller'
+p50787
+ag94
+F16000000.0
+F7900000.0
+tp50788
 a.
