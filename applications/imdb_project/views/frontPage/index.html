@@ -81,7 +81,7 @@
         genresQuery = genres.join(", ");
         directorsQuery = directors.join(", ");
         mpaaQuery = document.forms["searchForm"]["MPAA"].value; //TODO: change if we change genres
-        budgetQuery = document.forms["searchForm"]["fader"].value;
+        budgetQuery = document.getElementById("budget2").value.replace("$","");
         csvLine = getCsvLineFormat(actorsQuery,directorsQuery,writersQuery,genresQuery, mpaaQuery, budgetQuery);
         console.log("csv line " + getCsvLineFormat(actorsQuery,directorsQuery,writersQuery,genresQuery, mpaaQuery, budgetQuery));
         getRatingAndRevenue(csvLine);
@@ -173,10 +173,9 @@
             innerHtml += "<li><input type='checkbox' onclick='redoSearch()' id='writer"+i+"'value='" +writerSplit[i]+"' checked/>"+writerSplit[i]+"</li>";
         }
         for (i = 0; i < genreSplit.length; i+= 1) {
-            innerHtml += "<li><input type='checkbox' onclick='redoSearch()' id='genre"+i+"'value='" +genreSplit[i]+"' checked/>"+genreSplit[i]+"</li>";
+            innerHtml += "<li style='visibility:hidden;'><input type='checkbox' onclick='redoSearch()' id='genre"+i+"'value='" +genreSplit[i]+"' checked/>"+genreSplit[i]+"</li>";
         }
-        innerHtml += "<li><input type='checkbox' id='mpaa'value="+mpaa+" checked/>"+mpaa+"</div></li>";
-        innerHtml += "<li><input type='checkbox' id='budget'value="+budget+" checked/><output for=fader id=budgetOut>$"+budget+"</output><input type=range min=0 max=200000000 value="+budget+" id=newfader step=10000></li>";
+        innerHtml += "<li style='visibility:hidden;'><input type='checkbox' id='mpaa'value="+mpaa+" checked/>"+mpaa+"</div></li>";
         var list = document.getElementById("visualizationList");
         list.innerHTML=innerHtml;
         var budgetNew = document.getElementById("budget2");
@@ -351,7 +350,7 @@
                     document.querySelector('#budget2').value = "$"+budget;
                 }
               </script>
-              <input type=button id=budgetUpdate value="Update Budget">
+              <input type=button id=budgetUpdate value="Update Budget" onclick='redoSearch()'>
           </div>
       </div>
       <div class="suggested">
